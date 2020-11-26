@@ -1,0 +1,94 @@
+body {
+  background:white;
+  margin: auto;
+  text-align: center;
+  width: 100%;
+}
+
+header {
+  background: #f2f2f2;
+  border:solid 1px #e6e6e6 ;
+  margin: 0;
+  overflow:hidden;
+  width: 100%;
+  position: relative;
+  z-index: 10;
+}
+
+header h4{
+  float: left;
+  padding: 5px;
+}
+
+body h5{
+  text-decoration: underline;
+}
+
+.buttons2 {
+  float: center;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  width: 90%; 
+  margin: 5%; 
+  align-items: center; 
+  outline: 1px solid black;
+  overflow: hidden;
+}
+
+.dropdown2 {
+  float: right;
+  padding: 5px;
+}
+
+.nav {
+  float: right;
+  padding: 5px;
+}
+
+.nav ul li:hover{
+  background-color: #ddd;
+  color: black;
+}
+
+.nav ul li{
+  display: inline-block;
+  list-style-type: none;
+  color: white;
+  background: grey;
+}
+
+/*.nav>li {
+  float: left;
+}*/
+
+.navbar .container-fluid>.navbar-header {
+  float: left;
+  margin-right: 10px;
+}
+
+.navbar .navbar-nav {
+  float: left;
+  margin: auto;
+}
+
+.page-content{
+  /*display: flex;*/
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 5%;
+  margin-bottom: 2%;
+  align-items: center;
+  justify-content: center;
+}
+
+.result {
+  font-size: 30px;
+  text-align: center;
+}
