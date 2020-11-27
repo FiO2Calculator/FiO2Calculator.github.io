@@ -39,12 +39,12 @@
             if (flow > 200) {
               alert('Flow rate too high, please use a different calculator.');
             }
-            result = "FiO2 = "+(((flow*0.79)+(0.21*Ve))/Ve)*100 +" %";
+            result = "FiO2 = "+Math.round((((flow*0.79)+(0.21*Ve))/Ve)*100) +" %";
             break;
           
           case "flow":
             const fio2 = document.getElementById('last-cell-value').value;
-            let calculatedFlow = (((fio2*0.79)+(0.21*Ve))/Ve)*100;
+            let calculatedFlow = Math.round((((fio2*0.79)+(0.21*Ve))/Ve)*100);
 
             if (calculatedFlow > 200) {
               alert('Calculated flow rate too high, please use a different calculator.')
