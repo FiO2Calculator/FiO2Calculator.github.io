@@ -92,3 +92,9 @@ body h5{
   font-size: 30px;
   text-align: center;
 }
+
+.warning {
+  font-size: 20px;
+  text-align: center;
+  color: red;
+}

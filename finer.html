@@ -32,24 +32,28 @@
 
         output = document.getElementById("output").value
         let result = "Please select your desired output";
+        let warning = "<br />";
 
         switch (output) {
           case "fio2":
             const flow = document.getElementById('last-cell-value').value
             if (flow > 200) {
               alert('Flow rate too high, please use a different calculator.');
+              warning = "WARNING: flow rate too high, results may be inaccurate";
             }
-            result = "FiO2 = "+Math.round((((flow*0.79)+(0.21*Ve))/Ve)*100) +" %";
+            calculatedFio2 = (((flow*0.79)+(0.21*Ve))/Ve)*100;
+            result = "FiO2 = "+Math.round(calculatedFio2) +" %";
             break;
           
           case "flow":
             const fio2 = document.getElementById('last-cell-value').value;
-            let calculatedFlow = Math.round((((fio2*0.79)+(0.21*Ve))/Ve)*100);
+            let calculatedFlow = (Ve/0.79)*((fio2/100)-0.21);
 
             if (calculatedFlow > 200) {
               alert('Calculated flow rate too high, please use a different calculator.')
+              warning = "WARNING: flow rate too high, results may be inaccurate";
             }
-            result = "Flow rate = "+calculatedFlow +" mL/min";
+            result = "Flow rate = "+Math.round(calculatedFlow) +" mL/min";
             break;
           
           default:
@@ -57,7 +61,10 @@
             break;
         }
 
-        return document.getElementById('result').innerHTML = result;
+        return (
+          document.getElementById('result').innerHTML = result,
+          document.getElementById('warning').innerHTML = warning
+        )
       };
     </script>
 
@@ -112,7 +119,7 @@
     </nav>
 
     <div class="page-content">
-      <h5>Finer Calculator:</h5>
+      <h5>Finer Calculator (as adapted by NICU Tools):</h5>
       <p> Conditions for use (stand-in examples):
         <ul>
           <li>A flow rate below 200cc</li>
@@ -165,7 +172,7 @@
         <div class="center" onload="calculate()">
           <button class="btn btn-success" type="button" onclick="calculate()">Calculate Results</button>
         </div>
-        <br />
+        <div class="warning" id="warning"><br /></div>
         <div class="result" id="result"></div>
       </p>
     </div>
