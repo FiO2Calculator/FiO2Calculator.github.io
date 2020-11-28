@@ -24,32 +24,39 @@
       };
 
       calculate = () => {
-        const weight = document.getElementById('qty_weight').value;
-        const respRate = document.getElementById('qty_respiratory_rate').value;
+        const weight = document.getElementById('qty_weight').value; //kg
+        const fNose = 0.67;
+        const T = 0.3; //s
+        const B = document.getElementById("qty_blender_oxygen").value; //%
 
-        const Vt = 5.5*weight;
-        const Ve = Vt*respRate;
+        const Vt = 5.0*weight;
+        const VdotNose = fNose*Vt/T;
+        //const VdotNc = 
 
         output = document.getElementById("output").value
         let result = "Please select your desired output";
+        let warning = "<br />";
 
         switch (output) {
           case "fio2":
-            const flow = document.getElementById('last-cell-value').value
-            if (flow > 200) {
-              return alert('Flow rate too high, please use a different calculator.');
+            const flow = document.getElementById('last-cell-value').value / 60; //mL/s
+            let factor = 0;
+
+            if (VdotNose >= flow) {
+              factor = T*flow/Vt;
             }
-            result = "FiO2 = "+(((flow*0.79)+(0.21*Ve))/Ve)*100 +" %";
+            if (VdotNose < flow) {
+              factor = fNose;
+            }
+            calculatedFio2 = 21 + factor*(B-21);
+            result = "FiO2 = "+Math.round(calculatedFio2) +" %";
             break;
           
           case "flow":
             const fio2 = document.getElementById('last-cell-value').value;
-            let calculatedFlow = (((fio2*0.79)+(0.21*Ve))/Ve)*100;
+            let calculatedFlow = (Ve/0.79)*((fio2/100)-0.21);
 
-            if (calculatedFlow > 200) {
-              alert('Calculated flow rate too high, please use a different calculator.')
-            }
-            result = "Flow rate = "+calculatedFlow +" mL/min";
+            result = "Flow rate = "+Math.round(calculatedFlow) +" mL/min";
             break;
           
           default:
@@ -57,7 +64,10 @@
             break;
         }
 
-        return document.getElementById('result').innerHTML = result;
+        return (
+          document.getElementById('result').innerHTML = result,
+          document.getElementById('warning').innerHTML = warning
+        )
       };
     </script>
 
@@ -112,7 +122,7 @@
     </nav>
 
     <div class="page-content">
-      <h5>Benaron-Benitz Calculator (same as finer for now):</h5>
+      <h5>Benaron-Benitz Calculator:</h5>
       <p> Conditions for use (stand-in examples):
         <ul>
           <li>No measured respiratory rate</li>
@@ -131,10 +141,10 @@
         
          <div class="row my-3">
           <div class="col-6">
-            Respiratory rate (Breaths/Min)
+            Blender Oxygen (%)
           </div>
           <div class="col-3">
-            <input type="number" value="65" class="qty" id="qty_respiratory_rate"/>
+            <input type="number" value="100" class="qty" id="qty_blender_oxygen"/>
           </div>
         </div>
 
@@ -157,14 +167,13 @@
             <input type="number" class="qty" value="0" id="last-cell-value"/>
           </div>
         </div>
-      
       </div>
   
       <p class="result-div"> 
         <div class="center" onload="calculate()">
           <button class="btn btn-success" type="button" onclick="calculate()">Calculate Results</button>
         </div>
-        <br />
+        <div class="warning" id="warning"><br /></div>
         <div class="result" id="result"></div>
       </p>
     </div>
