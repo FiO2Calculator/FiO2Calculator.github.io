@@ -26,6 +26,7 @@
       calculate = () => {
         const weight = document.getElementById('qty_weight').value;
         const respRate = document.getElementById('qty_respiratory_rate').value;
+        const B = document.getElementById("qty_blender_oxygen").value; //%
 
         const Vt = 5.5*weight;
         const Ve = Vt*respRate;
@@ -33,26 +34,49 @@
         output = document.getElementById("output").value
         let result = "Please select your desired output";
         let warning = "<br />";
+        let warning2 = "<br />";
 
         switch (output) {
           case "fio2":
             const flow = document.getElementById('last-cell-value').value
+
+            let calculatedFio2 = 0;
+
             if (flow > 200) {
               alert('Flow rate too high, please use a different calculator.');
               warning = "WARNING: flow rate too high, results may be inaccurate";
-            }
-            calculatedFio2 = (((flow*0.79)+(0.21*Ve))/Ve)*100;
+            };
+
+            if (flow > Ve) {
+              calculatedFio2 = B;
+            };
+
+            if (flow <= Ve) {
+              calculatedFio2 = (((flow*(B-21)/100)+(0.21*Ve))/Ve)*100;
+            };
+            
             result = "FiO2 = "+Math.round(calculatedFio2) +" %";
             break;
           
           case "flow":
             const fio2 = document.getElementById('last-cell-value').value;
-            let calculatedFlow = (Ve/0.79)*((fio2/100)-0.21);
+            const maxFio2 = B;
+
+            let calculatedFlow = 0;
+
+            if (fio2 <= maxFio2) {
+              calculatedFlow = (Ve/((B-21)))*((fio2)-21);
+            };
+            
+            if (fio2 > maxFio2) {
+              calculatedFlow = Ve;
+              warning = "The FiO2 value you entered cannot be reached with this blender oxygen. The max FiO2 possible is "+Math.round(maxFio2)+"% and the lowest flow rate at which it is reached is:";
+            };
 
             if (calculatedFlow > 200) {
               alert('Calculated flow rate too high, please use a different calculator.')
-              warning = "WARNING: flow rate too high, results may be inaccurate";
-            }
+              warning2 = "WARNING: flow rate too high, results may be inaccurate";
+            };
             result = "Flow rate = "+Math.round(calculatedFlow) +" mL/min";
             break;
           
@@ -63,7 +87,8 @@
 
         return (
           document.getElementById('result').innerHTML = result,
-          document.getElementById('warning').innerHTML = warning
+          document.getElementById('warning').innerHTML = warning,
+          document.getElementById('warning2').innerHTML = warning2
         )
       };
     </script>
@@ -148,6 +173,15 @@
 
         <div class="row my-3">
           <div class="col-6">
+            Blender Oxygen (%)
+          </div>
+          <div class="col-3">
+            <input type="number" value="100" class="qty" id="qty_blender_oxygen"/>
+          </div>
+        </div>
+
+        <div class="row my-3">
+          <div class="col-6">
             Preferred output:
           </div>
           <div class="col-3" onload="changeCell()">
@@ -173,6 +207,7 @@
         </div>
         <div class="warning" id="warning"><br /></div>
         <div class="result" id="result"></div>
+        <div class="warning" id="warning2"><br /></div>
       </p>
     </div>
 

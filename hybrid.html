@@ -23,33 +23,67 @@
         }
       };
 
-      calculate = () => {
+      calculateFiner = () => {
         const weight = document.getElementById('qty_weight').value;
         const respRate = document.getElementById('qty_respiratory_rate').value;
+        const B = document.getElementById("qty_blender_oxygen").value; //%
 
         const Vt = 5.5*weight;
         const Ve = Vt*respRate;
 
         output = document.getElementById("output").value
         let result = "Please select your desired output";
+        let finerResult = 0;
+        let warning = "<br />";
+        let warning2 = "<br />";
 
         switch (output) {
           case "fio2":
             const flow = document.getElementById('last-cell-value').value
+
+            let calculatedFio2 = 0;
+
             if (flow > 200) {
-              return alert('Flow rate too high, please use a different calculator.');
-            }
-            result = "FiO2 = "+(((flow*0.79)+(0.21*Ve))/Ve)*100 +" %";
+              alert('Flow rate too high, please use a different calculator.');
+              warning = "WARNING: flow rate too high, results may be inaccurate";
+            };
+
+            if (flow > Ve) {
+              calculatedFio2 = B;
+            };
+
+            if (flow <= Ve) {
+              calculatedFio2 = (((flow*(B-21)/100)+(0.21*Ve))/Ve)*100;
+            };
+
+            finerResult = Math.round(calculatedFio2);
+            
+            result = "FiO2 = "+finerResult+" %";
             break;
           
           case "flow":
             const fio2 = document.getElementById('last-cell-value').value;
-            let calculatedFlow = (((fio2*0.79)+(0.21*Ve))/Ve)*100;
+            const maxFio2 = B;
+
+            let calculatedFlow = 0;
+
+            if (fio2 <= maxFio2) {
+              calculatedFlow = (Ve/((B-21)))*((fio2)-21);
+            };
+            
+            if (fio2 > maxFio2) {
+              calculatedFlow = Ve;
+              warning = "The FiO2 value you entered cannot be reached with this blender oxygen. The max FiO2 possible is "+Math.round(maxFio2)+"% and the lowest flow rate at which it is reached is:";
+            };
 
             if (calculatedFlow > 200) {
               alert('Calculated flow rate too high, please use a different calculator.')
-            }
-            result = "Flow rate = "+calculatedFlow +" mL/min";
+              warning2 = "WARNING: flow rate too high, results may be inaccurate";
+            };
+
+            finerResult = Math.round(calculatedFlow);
+
+            result = "Flow rate = "+finerResult+" mL/min";
             break;
           
           default:
@@ -57,8 +91,73 @@
             break;
         }
 
-        return document.getElementById('result').innerHTML = result;
+        return [finerResult, warning, warning2]
       };
+
+      calculateBB = () => {
+        const weight = document.getElementById('qty_weight').value; //kg
+        const fNose = 0.67;
+        const T = 0.3; //s
+        const B = document.getElementById("qty_blender_oxygen").value; //%
+
+        const Vt = 5.0*weight;
+        const VdotNose = fNose*Vt/T;
+        //const VdotNc = 
+
+        output = document.getElementById("output").value
+        let result = "Please select your desired output";
+        let warning = "<br />";
+
+        switch (output) {
+          case "fio2":
+            const flow = document.getElementById('last-cell-value').value / 60; //mL/s
+            let factor = 0;
+
+            if (VdotNose >= flow) {
+              factor = T*flow/Vt;
+            }
+            if (VdotNose < flow) {
+              factor = fNose;
+            }
+            calculatedFio2 = 21 + factor*(B-21);
+
+            bbResult = Math.round(calculatedFio2);
+
+            result = "FiO2 = "+bbResult+" %";
+            break;
+          
+          case "flow":
+            const fio2 = document.getElementById('last-cell-value').value;
+            const maxFio2 = 21 + fNose*(B-21);
+            let calculatedFlow = 0;
+
+            if (fio2 < maxFio2) {
+              calculatedFlow = (Vt*(fio2-21))/(T*(B-21))*60;
+            }
+
+            if (fio2 >= maxFio2) {
+              calculatedFlow = (Vt*(maxFio2-21))/(T*(B-21))*60;
+              warning = "The FiO2 value you entered cannot be reached with this blender oxygen. The max FiO2 possible is "+Math.round(maxFio2)+"% and the lowest flow rate at which it is reached is:";
+            }
+
+            bbResult = Math.round(calculatedFlow);
+
+            result = "Flow rate = "+bbResult+" mL/min";
+            break;
+          
+          default:
+            result = "Please select your desired output";
+            break;
+        }
+
+        return [bbResult, warning];
+      };
+
+      calculate = () => {
+        const finer = calculateFiner();
+        const bb = calculateBB();
+        const average = (finer[0] + bb[0])/2;
+      }
     </script>
 
   </head>
