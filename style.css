@@ -5,6 +5,10 @@ body {
   width: 100%;
 }
 
+body h5{
+  text-decoration: underline;
+}
+
 header {
   background: #f2f2f2;
   border:solid 1px #e6e6e6 ;
@@ -20,8 +24,12 @@ header h4{
   padding: 5px;
 }
 
-body h5{
-  text-decoration: underline;
+table {
+  width: 90%;
+}
+
+th, td {
+  padding: 5px;
 }
 
 .buttons2 {
@@ -97,4 +105,10 @@ body h5{
   font-size: 20px;
   text-align: center;
   color: red;
+}
+
+.warnings {
+  color: red;
+  text-decoration: bold;
+  text-decoration: underline;
 }

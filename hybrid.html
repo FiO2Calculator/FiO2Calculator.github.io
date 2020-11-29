@@ -10,7 +10,7 @@
     <script>
       
       changeCell = () => {
-        let output = document.getElementById("output").value
+        let output = document.getElementById("output").value;
         switch (output) {
         case "fio2":
           return document.getElementById('last-cell').innerHTML = "Oxygen Flow (mL/min or cc)";
@@ -31,7 +31,7 @@
         const Vt = 5.5*weight;
         const Ve = Vt*respRate;
 
-        output = document.getElementById("output").value
+        let output = document.getElementById("output").value;
         let result = "Please select your desired output";
         let finerResult = 0;
         let warning = "<br />";
@@ -104,9 +104,10 @@
         const VdotNose = fNose*Vt/T;
         //const VdotNc = 
 
-        output = document.getElementById("output").value
+        let output = document.getElementById("output").value;
         let result = "Please select your desired output";
         let warning = "<br />";
+        let bbResult = 0;
 
         switch (output) {
           case "fio2":
@@ -157,7 +158,33 @@
         const finer = calculateFiner();
         const bb = calculateBB();
         const average = (finer[0] + bb[0])/2;
-      }
+
+        let output = document.getElementById("output").value;
+        let tableOutput = "";
+
+        switch(output) {
+          case "fio2":
+            tableOutput = "FiO2 (%)";
+            break;
+          case "flow":
+            tableOutput = "Flow Rate (mL/min)"
+            break;
+
+          default:
+            tableOutput = "Output";
+            break;
+        }
+
+        return (
+          document.getElementById('table-output').innerHTML = tableOutput,
+
+          document.getElementById('table-finer').innerHTML = finer[0],
+          document.getElementById('table-bb').innerHTML = bb[0],
+          document.getElementById('table-average').innerHTML = average,
+
+          document.getElementById('warnings').innerHTML = "<li>"+finer[1]+"</li>"
+        )
+      };
     </script>
 
   </head>
@@ -228,6 +255,15 @@
             <input type="number" value="1.5" class="qty" id="qty_weight"/>
           </div>
         </div>
+
+        <div class="row my-3">
+          <div class="col-6">
+            Blender Oxygen (%)
+          </div>
+          <div class="col-3">
+            <input type="number" value="100" class="qty" id="qty_blender_oxygen"/>
+          </div>
+        </div>
         
          <div class="row my-3">
           <div class="col-6">
@@ -265,7 +301,30 @@
           <button class="btn btn-success" type="button" onclick="calculate()">Calculate Results</button>
         </div>
         <br />
-        <div class="result" id="result"></div>
+        <table>
+          <tr>
+            <th>Model</th>
+            <th id="table-output">Output</th> 
+          </tr>
+          <tr>
+            <td>Finer</td>
+            <td id="table-finer"></td>
+          </tr>
+          <tr>
+            <td>Benaron-Benitz</td>
+            <td id="table-bb"></td>
+          </tr>
+          <tr style="outline: 1px solid black;">
+            <td>Average</td>
+            <td id="table-average"></td>
+          </tr>
+        </table>
+      </p>
+
+      <p class="warnings">Warnings:
+        <ul id="warnings">
+          
+        </ul>
       </p>
     </div>
 
