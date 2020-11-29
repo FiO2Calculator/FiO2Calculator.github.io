@@ -54,7 +54,17 @@
           
           case "flow":
             const fio2 = document.getElementById('last-cell-value').value;
-            let calculatedFlow = (Ve/0.79)*((fio2/100)-0.21);
+            const maxFio2 = 21 + fNose*(B-21);
+            let calculatedFlow = 0;
+
+            if (fio2 < maxFio2) {
+              calculatedFlow = (Vt*(fio2-21))/(T*(B-21))*60;
+            }
+
+            if (fio2 >= maxFio2) {
+              calculatedFlow = (Vt*(maxFio2-21))/(T*(B-21))*60;
+              warning = "The FiO2 value you entered cannot be reached with this blender oxygen. The max FiO2 possible is "+Math.round(maxFio2)+"% and the lowest flow rate at which it is reached is:"
+            }
 
             result = "Flow rate = "+Math.round(calculatedFlow) +" mL/min";
             break;
