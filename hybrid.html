@@ -148,6 +148,7 @@
       };
 
       calculate = () => {
+        document.getElementById('warnings').innerHTML = "";
         const finer = calculateFiner();
         const bb = calculateBB();
         const average = (finer[0] + bb[0])/2;
@@ -174,17 +175,23 @@
         document.getElementById('table-finer').innerHTML = finer[0];
         document.getElementById('table-bb').innerHTML = bb[0];
         document.getElementById('table-average').innerHTML = average;
-        
+
+        const warnings = document.getElementById('warnings');
+        const ul = document.createElement('ul');
+        const li = document.createElement('li');
+
         if (finer[1] != "") {
-          document.getElementById('warnings').innerHTML = "<li>Finer:"+finer[1]+"</li>";
-        };
-        if (finer[2] != "") {
-          document.getElementById('warnings').innerHTML = "<li>Finer:"+finer[2]+"</li>";
-        };
-        if (bb[1] != "") {
-          document.getElementById('warnings').innerHTML = "<li>Benaron-Benitz:"+bb[1]+"</li>"
+          li.innerHTML = ("Finer:"+finer[1]);
+          ul.appendChild(li);
+        } if (finer[2] != "") {
+          li.innerHTML = ("Finer:"+finer[2]);
+          ul.appendChild(li);
+        } if (bb[1] != "") {
+          li.innerHTML = ("Benaron-Benitz:"+bb[1]);
+          ul.appendChild(li);
         };
 
+        warnings.appendChild(ul);
         return
       };
     </script>
@@ -303,7 +310,12 @@
           <button class="btn btn-success" type="button" onclick="calculate()">Calculate Results</button>
         </div>
         <br />
-        <table>
+
+        <p class="warnings">Warnings:
+          <ul id="warnings">(If a warning comes up it will appear here.)</ul>
+        </p>
+
+        <table class="table">
           <tr>
             <th>Model</th>
             <th id="table-output">Output</th> 
@@ -323,11 +335,6 @@
         </table>
       </p>
 
-      <p class="warnings">Warnings:
-        <ul id="warnings">
-          
-        </ul>
-      </p>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

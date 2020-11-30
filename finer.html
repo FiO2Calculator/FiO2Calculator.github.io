@@ -31,14 +31,14 @@
         const Vt = 5.5*weight;
         const Ve = Vt*respRate;
 
-        output = document.getElementById("output").value
+        output = document.getElementById("output").value;
         let result = "Please select your desired output";
         let warning = "<br />";
         let warning2 = "<br />";
 
         switch (output) {
           case "fio2":
-            const flow = document.getElementById('last-cell-value').value
+            const flow = document.getElementById('last-cell-value').value;
 
             let calculatedFio2 = 0;
 
@@ -70,6 +70,8 @@
             
             if (fio2 > maxFio2) {
               calculatedFlow = Ve;
+              console.log("max fio2 passed = "+maxFio2); //100
+              console.log("fio2 entered = "+fio2); //50
               warning = "The FiO2 value you entered cannot be reached with this blender oxygen. The max FiO2 possible is "+Math.round(maxFio2)+"% and the lowest flow rate at which it is reached is:";
             };
 
@@ -176,7 +178,7 @@
             Blender Oxygen (%)
           </div>
           <div class="col-3">
-            <input type="number" value="100" class="qty" id="qty_blender_oxygen"/>
+            <input type="number" value="10" class="qty" max="100" id="qty_blender_oxygen"/>
           </div>
         </div>
 

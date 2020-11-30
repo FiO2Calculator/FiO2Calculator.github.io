@@ -101,6 +101,10 @@ th, td {
   text-align: center;
 }
 
+.table {
+  outline: 1px solid black;
+}
+
 .warning {
   font-size: 20px;
   text-align: center;
