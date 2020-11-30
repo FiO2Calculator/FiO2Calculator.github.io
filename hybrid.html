@@ -34,8 +34,8 @@
         let output = document.getElementById("output").value;
         let result = "Please select your desired output";
         let finerResult = 0;
-        let warning = "<br />";
-        let warning2 = "<br />";
+        let finerWarning = "";
+        let finerWarning2 = "";
 
         switch (output) {
           case "fio2":
@@ -45,7 +45,7 @@
 
             if (flow > 200) {
               alert('Flow rate too high, please use a different calculator.');
-              warning = "WARNING: flow rate too high, results may be inaccurate";
+              finerWarning = " Flow rate too high, results may be inaccurate.";
             };
 
             if (flow > Ve) {
@@ -57,8 +57,6 @@
             };
 
             finerResult = Math.round(calculatedFio2);
-            
-            result = "FiO2 = "+finerResult+" %";
             break;
           
           case "flow":
@@ -73,25 +71,23 @@
             
             if (fio2 > maxFio2) {
               calculatedFlow = Ve;
-              warning = "The FiO2 value you entered cannot be reached with this blender oxygen. The max FiO2 possible is "+Math.round(maxFio2)+"% and the lowest flow rate at which it is reached is:";
+              finerWarning2 = " The FiO2 value you entered cannot be reached with this blender oxygen. The max FiO2 possible is "+Math.round(maxFio2)+"% and the lowest flow rate at which it is reached is:";
             };
 
             if (calculatedFlow > 200) {
               alert('Calculated flow rate too high, please use a different calculator.')
-              warning2 = "WARNING: flow rate too high, results may be inaccurate";
+              finerWarning = " Flow rate too high, results may be inaccurate.";
             };
 
             finerResult = Math.round(calculatedFlow);
-
-            result = "Flow rate = "+finerResult+" mL/min";
             break;
           
           default:
-            result = "Please select your desired output";
+            finerResult = "Please select your desired output";
             break;
         }
 
-        return [finerResult, warning, warning2]
+        return [finerResult, finerWarning, finerWarning2]
       };
 
       calculateBB = () => {
@@ -106,7 +102,7 @@
 
         let output = document.getElementById("output").value;
         let result = "Please select your desired output";
-        let warning = "<br />";
+        let bbWarning = "";
         let bbResult = 0;
 
         switch (output) {
@@ -123,8 +119,6 @@
             calculatedFio2 = 21 + factor*(B-21);
 
             bbResult = Math.round(calculatedFio2);
-
-            result = "FiO2 = "+bbResult+" %";
             break;
           
           case "flow":
@@ -138,20 +132,19 @@
 
             if (fio2 >= maxFio2) {
               calculatedFlow = (Vt*(maxFio2-21))/(T*(B-21))*60;
-              warning = "The FiO2 value you entered cannot be reached with this blender oxygen. The max FiO2 possible is "+Math.round(maxFio2)+"% and the lowest flow rate at which it is reached is:";
+              bbWarning = " The FiO2 value you entered cannot be reached with this blender oxygen. The max FiO2 possible is "+Math.round(maxFio2)+"% and the lowest flow rate at which it is reached is:";
             }
 
             bbResult = Math.round(calculatedFlow);
 
-            result = "Flow rate = "+bbResult+" mL/min";
             break;
           
           default:
-            result = "Please select your desired output";
+            bbResult = "Please select your desired output";
             break;
         }
 
-        return [bbResult, warning];
+        return [bbResult, bbWarning];
       };
 
       calculate = () => {
@@ -175,15 +168,24 @@
             break;
         }
 
-        return (
-          document.getElementById('table-output').innerHTML = tableOutput,
+        
+        document.getElementById('table-output').innerHTML = tableOutput;
 
-          document.getElementById('table-finer').innerHTML = finer[0],
-          document.getElementById('table-bb').innerHTML = bb[0],
-          document.getElementById('table-average').innerHTML = average,
+        document.getElementById('table-finer').innerHTML = finer[0];
+        document.getElementById('table-bb').innerHTML = bb[0];
+        document.getElementById('table-average').innerHTML = average;
+        
+        if (finer[1] != "") {
+          document.getElementById('warnings').innerHTML = "<li>Finer:"+finer[1]+"</li>";
+        };
+        if (finer[2] != "") {
+          document.getElementById('warnings').innerHTML = "<li>Finer:"+finer[2]+"</li>";
+        };
+        if (bb[1] != "") {
+          document.getElementById('warnings').innerHTML = "<li>Benaron-Benitz:"+bb[1]+"</li>"
+        };
 
-          document.getElementById('warnings').innerHTML = "<li>"+finer[1]+"</li>"
-        )
+        return
       };
     </script>
 
