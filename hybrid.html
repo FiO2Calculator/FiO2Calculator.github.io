@@ -24,9 +24,9 @@
       };
 
       calculateFiner = () => {
-        const weight = document.getElementById('qty_weight').value;
-        const respRate = document.getElementById('qty_respiratory_rate').value;
-        const B = document.getElementById("qty_blender_oxygen").value; //%
+        const weight = Number(document.getElementById('qty_weight').value);
+        const respRate = Number(document.getElementById('qty_respiratory_rate').value);
+        const B = Number(document.getElementById("qty_blender_oxygen").value); //%
 
         const Vt = 5.5*weight;
         const Ve = Vt*respRate;
@@ -39,47 +39,46 @@
 
         switch (output) {
           case "fio2":
-            const flow = document.getElementById('last-cell-value').value
+            const flow = Number(document.getElementById('last-cell-value').value);
 
             let calculatedFio2 = 0;
 
             if (flow > 200) {
-              alert('Flow rate too high, please use a different calculator.');
-              finerWarning = " Flow rate too high, results may be inaccurate.";
-            };
-
-            if (flow > Ve) {
+              //alert('Flow rate too high, please use a different calculator.');
+              //finerWarning = " Flow rate too high, results may be inaccurate.";
+              finerResult = "Out of range.";
+            } else if (flow > Ve) {
               calculatedFio2 = B;
-            };
-
-            if (flow <= Ve) {
+              finerResult = Math.round(calculatedFio2);
+            } else if (flow <= Ve) {
               calculatedFio2 = (((flow*(B-21)/100)+(0.21*Ve))/Ve)*100;
+              finerResult = Math.round(calculatedFio2);
             };
-
-            finerResult = Math.round(calculatedFio2);
             break;
           
           case "flow":
-            const fio2 = document.getElementById('last-cell-value').value;
+            const fio2 = Number(document.getElementById('last-cell-value').value);
             const maxFio2 = B;
 
             let calculatedFlow = 0;
 
             if (fio2 <= maxFio2) {
               calculatedFlow = (Ve/((B-21)))*((fio2)-21);
+              finerResult = Math.round(calculatedFlow);
             };
             
             if (fio2 > maxFio2) {
               calculatedFlow = Ve;
-              finerWarning2 = " The FiO2 value you entered cannot be reached with this blender oxygen. The max FiO2 possible is "+Math.round(maxFio2)+"% and the lowest flow rate at which it is reached is:";
+              finerWarning2 = " The FiO2 value you entered cannot be reached with this blender oxygen. The max FiO2 possible is "+Math.round(maxFio2)+"% and the lowest flow rate at which it is reached is shown in the table below.";
+              finerResult = Math.round(calculatedFlow);
             };
 
             if (calculatedFlow > 200) {
-              alert('Calculated flow rate too high, please use a different calculator.')
-              finerWarning = " Flow rate too high, results may be inaccurate.";
+              //alert('Calculated flow rate too high, please use a different calculator.')
+              //finerWarning = " Flow rate too high, results may be inaccurate.";
+              finerResult = "Out of range.";
             };
 
-            finerResult = Math.round(calculatedFlow);
             break;
           
           default:
@@ -91,10 +90,10 @@
       };
 
       calculateBB = () => {
-        const weight = document.getElementById('qty_weight').value; //kg
+        const weight = Number(document.getElementById('qty_weight').value); //kg
         const fNose = 0.67;
         const T = 0.3; //s
-        const B = document.getElementById("qty_blender_oxygen").value; //%
+        const B = Number(document.getElementById("qty_blender_oxygen").value); //%
 
         const Vt = 5.0*weight;
         const VdotNose = fNose*Vt/T;
@@ -107,7 +106,7 @@
 
         switch (output) {
           case "fio2":
-            const flow = document.getElementById('last-cell-value').value / 60; //mL/s
+            const flow = Number(document.getElementById('last-cell-value').value) / 60; //mL/s
             let factor = 0;
 
             if (VdotNose >= flow) {
@@ -122,7 +121,7 @@
             break;
           
           case "flow":
-            const fio2 = document.getElementById('last-cell-value').value;
+            const fio2 = Number(document.getElementById('last-cell-value').value);
             const maxFio2 = 21 + fNose*(B-21);
             let calculatedFlow = 0;
 
@@ -132,7 +131,7 @@
 
             if (fio2 >= maxFio2) {
               calculatedFlow = (Vt*(maxFio2-21))/(T*(B-21))*60;
-              bbWarning = " The FiO2 value you entered cannot be reached with this blender oxygen. The max FiO2 possible is "+Math.round(maxFio2)+"% and the lowest flow rate at which it is reached is:";
+              bbWarning = " The FiO2 value you entered cannot be reached with this blender oxygen. The max FiO2 possible is "+Math.round(maxFio2)+"% and the lowest flow rate at which it is reached is shown in the table below.";
             }
 
             bbResult = Math.round(calculatedFlow);
@@ -178,17 +177,19 @@
 
         const warnings = document.getElementById('warnings');
         const ul = document.createElement('ul');
-        const li = document.createElement('li');
+        const liFiner1 = document.createElement('li');
+        const liFiner2 = document.createElement('li');
+        const liBB = document.createElement('li');
 
         if (finer[1] != "") {
-          li.innerHTML = ("Finer:"+finer[1]);
-          ul.appendChild(li);
+          liFiner1.innerHTML = ("<b>Finer:</b>"+finer[1]);
+          ul.appendChild(liFiner1);
         } if (finer[2] != "") {
-          li.innerHTML = ("Finer:"+finer[2]);
-          ul.appendChild(li);
+          liFiner2.innerHTML = ("<b>Finer:</b>"+finer[2]);
+          ul.appendChild(liFiner2);
         } if (bb[1] != "") {
-          li.innerHTML = ("Benaron-Benitz:"+bb[1]);
-          ul.appendChild(li);
+          liBB.innerHTML = ("<b>Benaron-Benitz:</b>"+bb[1]);
+          ul.appendChild(liBB);
         };
 
         warnings.appendChild(ul);

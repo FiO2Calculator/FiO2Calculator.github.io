@@ -24,9 +24,9 @@
       };
 
       calculate = () => {
-        const weight = document.getElementById('qty_weight').value;
-        const respRate = document.getElementById('qty_respiratory_rate').value;
-        const B = document.getElementById("qty_blender_oxygen").value; //%
+        const weight = Number(document.getElementById('qty_weight').value);
+        const respRate = Number(document.getElementById('qty_respiratory_rate').value);
+        const B = Number(document.getElementById("qty_blender_oxygen").value); //%
 
         const Vt = 5.5*weight;
         const Ve = Vt*respRate;
@@ -38,7 +38,7 @@
 
         switch (output) {
           case "fio2":
-            const flow = document.getElementById('last-cell-value').value;
+            const flow = Number(document.getElementById('last-cell-value').value);
 
             let calculatedFio2 = 0;
 
@@ -59,7 +59,7 @@
             break;
           
           case "flow":
-            const fio2 = document.getElementById('last-cell-value').value;
+            const fio2 = Number(document.getElementById('last-cell-value').value);
             const maxFio2 = B;
 
             let calculatedFlow = 0;
@@ -178,7 +178,7 @@
             Blender Oxygen (%)
           </div>
           <div class="col-3">
-            <input type="number" value="10" class="qty" max="100" id="qty_blender_oxygen"/>
+            <input type="number" value="100" class="qty" id="qty_blender_oxygen"/>
           </div>
         </div>
 
