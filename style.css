@@ -1,25 +1,26 @@
 body {
-  background:white;
+  background: white;
   margin: auto;
   text-align: center;
   width: 100%;
 }
 
-body h5{
-  text-decoration: underline;
+body h5 {
+  /*text-decoration: underline;*/
+  text-align: center;
 }
 
 header {
   background: #f2f2f2;
-  border:solid 1px #e6e6e6 ;
+  border: solid 1px #e6e6e6;
   margin: 0;
-  overflow:hidden;
+  overflow: hidden;
   width: 100%;
   position: relative;
   z-index: 10;
 }
 
-header h4{
+header h4 {
   float: left;
   padding: 5px;
 }
@@ -28,7 +29,8 @@ table {
   width: 90%;
 }
 
-th, td {
+th,
+td {
   padding: 5px;
 }
 
@@ -43,9 +45,9 @@ th, td {
 }
 
 .container {
-  width: 90%; 
-  margin: 5%; 
-  align-items: center; 
+  width: 90%;
+  margin: 5%;
+  align-items: center;
   outline: 1px solid black;
   overflow: hidden;
 }
@@ -60,12 +62,12 @@ th, td {
   padding: 5px;
 }
 
-.nav ul li:hover{
+.nav ul li:hover {
   background-color: #ddd;
   color: black;
 }
 
-.nav ul li{
+.nav ul li {
   display: inline-block;
   list-style-type: none;
   color: white;
@@ -76,7 +78,7 @@ th, td {
   float: left;
 }*/
 
-.navbar .container-fluid>.navbar-header {
+.navbar .container-fluid > .navbar-header {
   float: left;
   margin-right: 10px;
 }
@@ -86,7 +88,7 @@ th, td {
   margin: auto;
 }
 
-.page-content{
+.page-content {
   /*display: flex;*/
   margin-left: 5%;
   margin-right: 5%;
