@@ -1,0 +1,36 @@
+Date : 2020-12-02 16:55:44
+Directory : /Users/martinbenfeghoul/Documents/GitHub/FiO2Calculator.github.io
+Total : 10 files,  1090 codes, 5 comments, 163 blanks, all 1258 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| HTML     |          8 |        994 |          0 |        141 |      1,135 |
+| CSS      |          1 |         95 |          5 |         21 |        121 |
+| Markdown |          1 |          1 |          0 |          1 |          2 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++----------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                             | files      | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                |         10 |      1,090 |          5 |        163 |      1,258 |
++----------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++----------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                         | language | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| /Users/martinbenfeghoul/Documents/GitHub/FiO2Calculator.github.io/README.md      | Markdown |          1 |          0 |          1 |          2 |
+| /Users/martinbenfeghoul/Documents/GitHub/FiO2Calculator.github.io/aboutUs.html   | HTML     |         76 |          0 |          5 |         81 |
+| /Users/martinbenfeghoul/Documents/GitHub/FiO2Calculator.github.io/bb.html        | HTML     |        169 |          0 |         25 |        194 |
+| /Users/martinbenfeghoul/Documents/GitHub/FiO2Calculator.github.io/bbHIW.html     | HTML     |         64 |          0 |          6 |         70 |
+| /Users/martinbenfeghoul/Documents/GitHub/FiO2Calculator.github.io/finer.html     | HTML     |        188 |          0 |         31 |        219 |
+| /Users/martinbenfeghoul/Documents/GitHub/FiO2Calculator.github.io/finerHIW.html  | HTML     |         65 |          0 |          6 |         71 |
+| /Users/martinbenfeghoul/Documents/GitHub/FiO2Calculator.github.io/hybrid.html    | HTML     |        290 |          0 |         56 |        346 |
+| /Users/martinbenfeghoul/Documents/GitHub/FiO2Calculator.github.io/hybridHIW.html | HTML     |         65 |          0 |          6 |         71 |
+| /Users/martinbenfeghoul/Documents/GitHub/FiO2Calculator.github.io/index.html     | HTML     |         77 |          0 |          6 |         83 |
+| /Users/martinbenfeghoul/Documents/GitHub/FiO2Calculator.github.io/style.css      | CSS      |         95 |          5 |         21 |        121 |
+| Total                                                                            |          |      1,090 |          5 |        163 |      1,258 |
++----------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
