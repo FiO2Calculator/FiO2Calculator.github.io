@@ -147,7 +147,7 @@
       };
 
       NICU = (W, R, F, B) => {
-        const FiO2 = 0;
+        let FiO2 = 0;
 
         const Ve = R * W * 5.5;
 
@@ -161,7 +161,7 @@
       };
 
       BB = (W, F, B) => {
-        const FiO2 = 0;
+        let FiO2 = 0;
 
         let factor = 0;
         const fNose = 0.67;
@@ -203,20 +203,20 @@
       };
 
       getPolys = () => {
+        //const regression = window.regression;
         const Fs = makeArray(2000);
-        const hybridValues = [];
+        let hybridValues = [];
 
         for (i in Fs) {
           hybridValues.push(hybrid(i));
         };
 
-        const coefficients = regression.polynomial(hybridValues, { order = 2 });
+        const coefficients = regression('polynomial', hybridValues, 2);
 
         return coefficients;
       }
 
       calculate = () => {
-        const regression = window.regression;
         document.getElementById('loading').innerHTML = "Calculating..";
         document.getElementById('warnings').innerHTML = "";
 
@@ -224,6 +224,7 @@
         const bb = calculateBB();
 
         let average = getPolys();
+        console.log(average);
 
         const outputValue = Number(document.getElementById('last-cell-value').value);
 
@@ -249,7 +250,7 @@
 
         document.getElementById('table-finer').innerHTML = finer[0];
         document.getElementById('table-bb').innerHTML = bb[0];
-        document.getElementById('table-average').innerHTML = average;
+        document.getElementById('table-average').innerHTML = average.equation;
 
         const warnings = document.getElementById('warnings');
         const ul = document.createElement('ul');
@@ -389,7 +390,7 @@
         <div class="loading" id="loading"><br /></div>
 
         <p class="warnings">Warnings:
-          <ul id="warnings">(If a warning comes up it will appear here.)</ul>
+          <ul id="warnings">(If a warning comes up it will appear here)</ul>
         </p>
 
         <table class="table">
@@ -416,8 +417,6 @@
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/regression/2.0.1/regression.js"
-      integrity="sha512-PHHRPMxJK1xGYLQPv9FoDbCF2X23Ao1lMAD52oLY9TBW033s4zwIXl5JQBGlfI2iOx3W1qP3LAS/MMv5Ttj0aQ=="
-      crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/regression/1.4.0/regression.min.js"></script>
   </body>
 </html>

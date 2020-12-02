@@ -44,6 +44,10 @@ td {
   align-items: center;
 }
 
+.loading {
+  font-size: 30px;
+}
+
 .container {
   width: 90%;
   margin: 5%;
