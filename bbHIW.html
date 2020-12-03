@@ -61,11 +61,31 @@
 
     <div class="page-content">
       <h5>More details on Benaron-Benitz:</h5> 
-      <p>Awaiting content</p>
-
-      <p class="eq">$$ FiO_2 = F_{atm,O_2} + \frac{T_I\times \dot V_{nc}}{V_T} \times (F_{nc,O_2}-F_{atm,O_2}),\quad if\ \dot V_{nose} \geq \dot V_{nc} $$</p>
-      <p class="eq">$$ FiO_2 = \frac{F(B - 21) + (21 \times \dot V_E)}{\dot V_E},\quad otherwise $$</p>
+      <p>
+        The Benaron-Benitz model implements the formula derived by Benaron DA & Benitz WE, <a href="https://pubmed.ncbi.nlm.nih.gov/8130865/">Arch Pediatr Adolesc Med., Mar.
+        1994;148(3):294-300</a> :
+      </p>
       <img class="eq-img" src="bb.png" />
+      <br />
+      <br />
+      <p>
+        This formula includes the atmospheric oxygen concentration plus the product of a factor with the difference between
+        nasal cannula and atmospheric concentrations, with the factor dependent if the rate of inspiration through the nose
+        (implemented as the producing of fraction of nasal breathing and tidal volume, per inspiratory time) exceeds the nasal
+        cannula flow rate. When flow rate is the greater, the factor is simplifies to just the nasal fraction of inspiratory
+        flow. This formula is proportonal to flow rate and blender percentage, and inversely proportional to weight through
+        tidal volume.
+      </p>
+      <p>
+        In the construction of this model, Benaron and Benitz assume a respiratory rate of 65 breaths/min, constant nasal flow
+        over the inspiratory cycle and that the upper airway does not act as a reservoir. For their model to be most accurate to
+        their empirical measurements, it is recommended to use V_T = 5.5 mL/kg, T_I = 0.3 s and f_{nose} = 0.67, which are the
+        values used in this implementation.
+      </p>
+      <p>
+        This model is recommended for use for flow rates up to 2000 cc/min. It should be noted that respiratory rate is assumed
+        for all patients so may be a source of inaccuracy for patients with a respiratory rate much lower than 65 breaths/min.
+      </p>
 
     </div>
 
