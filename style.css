@@ -61,6 +61,12 @@ td {
   padding: 5px;
 }
 
+.eq-img {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
 .nav {
   float: right;
   padding: 5px;
@@ -77,10 +83,6 @@ td {
   color: white;
   background: grey;
 }
-
-/*.nav>li {
-  float: left;
-}*/
 
 .navbar .container-fluid > .navbar-header {
   float: left;
