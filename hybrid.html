@@ -12,7 +12,7 @@
         let output = document.getElementById("output").value;
         switch (output) {
         case "fio2":
-          return document.getElementById('last-cell').innerHTML = "Oxygen Flow (mL/min or cc)";
+          return document.getElementById('last-cell').innerHTML = "Oxygen Flow (mL/min or cc/min)";
           
         case "flow":
           return document.getElementById('last-cell').innerHTML = "FiO2 (%)";
@@ -354,9 +354,12 @@
 
     <div class="page-content">
       <h5>Hybrid Calculator:</h5>
+      <p>
+        <b>Disclaimer:</b> This model has not been validated against real data.
+      </p>
       <p> Recommended Conditions for use:
         <ul>
-          <li>If known, a flow rate below 2000cc</li>
+          <li>If known, a flow rate below 2000 ml/min</li>
           <li>A measured respiratory rate</li>
         </ul>
       </p>
