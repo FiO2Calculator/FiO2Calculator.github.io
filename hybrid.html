@@ -44,12 +44,16 @@
 
             if (flow > 200) {
               //alert('Flow rate too high, please use a different calculator.');
-              //finerWarning = " Flow rate too high, results may be inaccurate.";
-              finerResult = "Out of range.";
-            } else if (flow > Ve) {
+              finerWarning = " Flow rate too high, results may be inaccurate.";
+              //finerResult = "Out of range.";
+            }; 
+            
+            if (flow > Ve) {
               calculatedFio2 = B;
               finerResult = Math.round(calculatedFio2);
-            } else if (flow <= Ve) {
+            }; 
+            
+            if (flow <= Ve) {
               calculatedFio2 = (((flow*(B-21)/100)+(0.21*Ve))/Ve)*100;
               finerResult = Math.round(calculatedFio2);
             };
@@ -74,8 +78,8 @@
 
             if (calculatedFlow > 200) {
               //alert('Calculated flow rate too high, please use a different calculator.')
-              //finerWarning = " Flow rate too high, results may be inaccurate.";
-              finerResult = "Out of range.";
+              finerWarning = " Flow rate too high, results may be inaccurate.";
+              //finerResult = "Out of range.";
             };
 
             break;
@@ -102,6 +106,8 @@
         let bbWarning = "";
         let bbResult = 0;
 
+        const maxFio2 = 21 + fNose * (B - 21);
+
         switch (output) {
           case "fio2":
             const flow = Number(document.getElementById('last-cell-value').value); //mL/min
@@ -122,7 +128,6 @@
           
           case "flow":
             const fio2 = Number(document.getElementById('last-cell-value').value);
-            const maxFio2 = 21 + fNose*(B-21);
             let calculatedFlow = 0;
 
             if (fio2 < maxFio2) {
@@ -143,7 +148,7 @@
             break;
         }
 
-        return [bbResult, bbWarning];
+        return [bbResult, bbWarning, maxFio2];
       };
 
       NICU = (W, R, F, B) => {
@@ -223,25 +228,44 @@
         const finer = calculateFiner();
         const bb = calculateBB();
 
-        let average = getPolys();
-        console.log(average);
+        let polys = getPolys().equation;
+        let d2 = polys[2];
+        let d1 = polys[1];
+        let d0 = polys[0];
 
         const outputValue = Number(document.getElementById('last-cell-value').value);
 
         let output = document.getElementById("output").value;
         let tableOutput = "";
+        let hybrid = 0;
+        let hybridWarning = "";
+
+        let maxFlow = Math.min((-d1 - Math.sqrt(d1 ** 2 - 4 * d2 * (d0 - bb[2]))) / (2 * d2), (-d1 + Math.sqrt(d1 ** 2 - 4 * d2 * (d0 - bb[2]))) / (2 * d2));
 
         switch(output) {
           case "fio2":
+            if (outputValue < maxFlow) {
+              hybrid = Math.round(d2 * (outputValue ** 2) + d1 * outputValue + d0);
+            } else {
+              hybrid = Math.round(bb[2]);
+            };
             tableOutput = "FiO2 (%)";
-
             break;
           case "flow":
+            let fio2 = outputValue;
             tableOutput = "Flow Rate (mL/min)";
+            if (fio2 <= bb[2]) {
+              let smallest = Math.min((-d1 - Math.sqrt(d1 ** 2 - 4 * d2 * (d0 - fio2))) / (2 * d2), (-d1 + Math.sqrt(d1 ** 2 - 4 * d2 * (d0 - fio2))) / (2 * d2));
+              hybrid = Math.round(smallest);
+            } else {
+              hybrid = Math.round(maxFlow);
+              hybridWarning = " The FiO2 value you entered cannot be reached with this blender oxygen. The max FiO2 possible is " + Math.round(bb[2]) + "% and the lowest flow rate at which it is reached is shown in the table below.";
+            }
             break;
 
           default:
             tableOutput = "Output";
+            hybrid ="";
             break;
         };
 
@@ -250,13 +274,14 @@
 
         document.getElementById('table-finer').innerHTML = finer[0];
         document.getElementById('table-bb').innerHTML = bb[0];
-        document.getElementById('table-average').innerHTML = 2000;//average.equation;
+        document.getElementById('table-hybrid').innerHTML = hybrid;
 
         const warnings = document.getElementById('warnings');
         const ul = document.createElement('ul');
         const liFiner1 = document.createElement('li');
         const liFiner2 = document.createElement('li');
         const liBB = document.createElement('li');
+        const liHybrid = document.createElement('li');
 
         if (finer[1] != "") {
           liFiner1.innerHTML = ("<b>Finer:</b>"+finer[1]);
@@ -267,6 +292,9 @@
         } if (bb[1] != "") {
           liBB.innerHTML = ("<b>Benaron-Benitz:</b>"+bb[1]);
           ul.appendChild(liBB);
+        } if (hybridWarning != "") {
+          liHybrid.innerHTML = ("<b>Hybrid:</b>" + hybridWarning);
+          ul.appendChild(liHybrid);
         };
 
         warnings.appendChild(ul);
@@ -407,8 +435,8 @@
             <td id="table-bb"></td>
           </tr>
           <tr style="outline: 1px solid black;">
-            <td>Average</td>
-            <td id="table-average"></td>
+            <td>Hybrid</td>
+            <td id="table-hybrid"></td>
           </tr>
         </table>
       </p>
