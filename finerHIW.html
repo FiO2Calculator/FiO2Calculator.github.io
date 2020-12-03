@@ -61,12 +61,12 @@
 
     <div class="page-content">
       <h5>More details on Finer:</h5>
-      <p>The 'Finer' model implements the equation derived by Finer et al., <a href="https://pubmed.ncbi.nlm.nih.gov/8776266/">Pediatr Pulmonol 1996;21(1):48-51</a> with <a href="http://nicutools.org/">modifications</a> by Dr Michael Hewson, NICU, Wellington Hospital. These include the use of an oxygen blender altering the cannula oxygen concentration and
-      enforcing a conditional statement when the gas flow exceeds minute ventilation,</p>
+      <p>The 'Finer' model implements the equation derived by Finer et al., <a href="https://pubmed.ncbi.nlm.nih.gov/8776266/">Pediatr Pulmonol 1996;21(1):48-51</a> with <a href="http://nicutools.org/">modifications</a> by Dr Michael Hewson, NICU, Wellington Hospital. These include the use of an oxygen blender altering the cannula oxygen concentration, \(B\) and
+      enforcing a conditional statement when the gas flow exceeds minute ventilation, \(\dot V_E\) : </p>
 
-      <p>$$ FiO_2 = B,\quad if\ F > \dot V_E $$</p>
-      <p>$$ FiO_2 = \frac{F(B - 21) + (21 \times \dot V_E)}{\dot V_E},\quad otherwise $$</p>
-      <p>In the construction of this formula, Finer et al. assume a tidal volume (Vt) of 5.5 mL/kg.</p>
+      <img class="eq-img" src="nicu.png" />
+      <p>Here, \(\dot V_E = V_T\times R =5.5\times W\times R\), with tidal volume \(V_T\) (mL/kg), respiratory rate \(R\) (breaths/min), and weight \(W\) (kg).</p>
+      <p>In the construction of this formula, Finer et al. assume a tidal volume \(V_T\) of 5.5 mL/kg.</p>
       <p>The use of this model for flow rates above 200 cc/min is not recommended since the Finer model was not made or validated
       for higher low flow rates.</p> 
     </div>

@@ -70,6 +70,7 @@ td {
   max-width: 100%;
   height: auto;
   object-fit: contain;
+  justify-content: center;
 }
 
 .nav {
@@ -116,6 +117,8 @@ td {
 
 .table {
   outline: 1px solid black;
+  max-width: 100%;
+  table-layout: fixed;
 }
 
 .warning {
