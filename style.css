@@ -61,6 +61,11 @@ td {
   padding: 5px;
 }
 
+.eq {
+  max-width: 100%;
+  height: auto;
+}
+
 .eq-img {
   max-width: 100%;
   height: auto;
