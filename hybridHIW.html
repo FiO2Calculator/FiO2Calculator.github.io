@@ -62,7 +62,33 @@
 
     <div class="page-content">
       <h5>More details on Hybrid:</h5>
-      <p>Awaiting content</p> 
+      <br />
+      <p><b>Development:</b></p>
+      <p>
+        Initially, a function was created which took the value of the mean of the NICU and Benaron-Benitz formulae for gas flow
+        rates less than 200 mL/min, and took the value of only Benaron-Benitz otherwise. The function displayed a discontinuity
+        at exactly 200 mL/min as NICU predicts a non-zero FiO2 for this flow rate. Hence, the function was smoothed by
+        fitting a polynomial of second degree, the coefficients of which were derived using polynomial regression. This degree
+        of polynomial was chosen as a first degree (linear) polynomial did not approximate the function well at all, a third
+        degree polynomial showed no significant deviation from the second degree polynomial and a fourth degree polynomial was
+        too close of a fit to the discontinuity and hence displayed behaviour that would not be expected physically.
+      </p>
+      <p>
+        The quadratic fit did show one unexpected behaviour in that it predicted a maximum FiO2 at after which FiO2
+        decreases with increasing flow rate. This is in contrast to the predictions made by other models, which are all either
+        monotonically increasing or monotonically increasing up to a point at which they become constant. A consequence of this
+        decreasing portion was that a reverse calculator for the hybrid model would return two different gas flow rate values
+        (before and after the maximum FiO2). To avoid ambiguity, the final hybrid calculator was made single-valued by taking
+        the form of the quadratic fit up to the maximum FiO2 reached by Benaron-Benitz and taking that value
+        for all greater flow rates.
+      </p>
+      <p>
+        As made evident by the disclaimer on the calculator, the final hybrid model has not been peer-reviewed in any way and so medical
+        practitioners should always exercise caution if choosing to use the value given by this model. The Finer and
+        Benaron-Benitz models have been peer-reviewed and so their predicted FiO2 values are always displayed alongside the
+        hybrid value for comparison.
+      </p> 
+
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
