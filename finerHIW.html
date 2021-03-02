@@ -1,79 +1,111 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FiO2 Calculator</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
-  </head>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FiO2 Calculator</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+    integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 
-  <body>
-    <header>
-      <h4>FiO2 Calculator</h4>
-      <div class="nav">
-        <ul>
-          <li>
-            <a href="aboutUs.html" class="btn btn-secondary" role="button" aria-pressed="true">
-              About Us
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+</head>
+
+<body>
+  <header>
+    <h4>FiO2 Calculator</h4>
+    <div class="nav">
+      <ul>
+        <li>
+          <a href="aboutUs.html" class="btn btn-secondary" role="button" aria-pressed="true">
+            About Us
+          </a>
+        </li>
+      </ul>
+    </div>
+  </header>
+  <nav class="navbar navbar-expand navbar-light bg-light">
+
+    <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="index.html">Home</a>
+        </li>
+        <li class="nav-item active">
+          <div class="dropdown">
+            <a class="nav-link active dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              Calculators
             </a>
-          </li>
-        </ul>
-      </div>
-    </header>
-    <nav class="navbar navbar-expand navbar-light bg-light">
-    
-      <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item active">
-            <a class="nav-link" href="index.html">Home</a>
-          </li>
-          <li class="nav-item active">
-            <div class="dropdown">
-              <a class="nav-link active dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Calculators
-              </a>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="finer.html">Finer</a>
-                <a class="dropdown-item" href="bb.html">Benaron-Benitz</a>
-                <a class="dropdown-item" href="hybrid.html">Hybrid</a>
-              </div>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="finer.html">Finer</a>
+              <a class="dropdown-item" href="bb.html">Benaron-Benitz</a>
+              <a class="dropdown-item" href="hybrid.html">Hybrid</a>
             </div>
-          </li>
-          <li class="nav-item active">
-            <div class="dropdown">
-              <a class="nav-link active dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                How it Works
-              </a>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="finerHIW.html">Finer</a>
-                <a class="dropdown-item" href="bbHIW.html">Benaron-Benitz</a>
-                <a class="dropdown-item" href="hybridHIW.html">Hybrid</a>
-              </div>
+          </div>
+        </li>
+        <li class="nav-item active">
+          <div class="dropdown">
+            <a class="nav-link active dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              How it Works
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="finerHIW.html">Finer</a>
+              <a class="dropdown-item" href="bbHIW.html">Benaron-Benitz</a>
+              <a class="dropdown-item" href="hybridHIW.html">Hybrid</a>
             </div>
-          </li>
-        </ul>
-      </div>
-    </nav>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
 
-    <div class="page-content">
-      <h5>More details on Finer:</h5>
-      <p>The 'Finer' model implements the equation derived by Finer et al., <a href="https://pubmed.ncbi.nlm.nih.gov/8776266/">Pediatr Pulmonol 1996;21(1):48-51</a> with <a href="http://nicutools.org/">modifications</a> by Dr Michael Hewson, NICU, Wellington Hospital. These include the use of an oxygen blender altering the cannula oxygen concentration, \(B\) and
+  <div class="page-content">
+    <h5>More details on Finer:</h5>
+    <p>The 'Finer' model implements the equation derived by Finer et al., <a
+        href="https://pubmed.ncbi.nlm.nih.gov/8776266/">Pediatr Pulmonol 1996;21(1):48-51</a> with <a
+        href="http://nicutools.org/">modifications</a> by Dr Michael Hewson, NICU, Wellington Hospital. These include
+      the use of an oxygen blender altering the cannula oxygen concentration, \(B\) and
       enforcing a conditional statement when the gas flow exceeds minute ventilation, \(\dot V_E\) : </p>
 
-      <img class="eq-img" src="nicu.png" />
-      <br />
-      <p style="line-height: 2;">Here, \(\dot V_E = V_T\times R =5.5\times W\times R\), with tidal volume \(V_T\) (mL/kg), respiratory rate \(R\) (breaths/min), and weight \(W\) (kg).</p>
-      <p>In the construction of this formula, Finer et al. assume a tidal volume \(V_T\) of 5.5 ml/kg.</p>
-      <p>The use of this model for flow rates above 200 mL/min is not recommended since the Finer model was not made or validated
-      for higher low flow rates.</p> 
-      <p>If selecting flow rate for the preferred output, the formula above is inverted to solve for \(F\).</p>
-    </div>
+    <img class="eq-img" src="nicu.png" />
+    <br />
+    <p style="line-height: 2;">Here, \(\dot V_E = V_T\times R =5.5\times W\times R\), with tidal volume \(V_T\) (mL/kg),
+      respiratory rate \(R\) (breaths/min), and weight \(W\) (kg).</p>
+    <p>In the construction of this formula, Finer et al. assume a tidal volume \(V_T\) of 5.5 ml/kg.</p>
+    <p>The use of this model for flow rates above 200 mL/min is not recommended since the Finer model was not made or
+      validated
+      for higher low flow rates.</p>
+    <p>If selecting flow rate for the preferred output, the formula above is inverted to solve for \(F\).</p>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-  </body>
+    </br>
+    <p>
+      <b>Note:</b> This Page uses MathJax to display equations under the <a
+        href="https://github.com/mathjax/MathJax/blob/master/LICENSE">Apache License, Version 2.0</a>.
+    </p>
+    <p xmlns:cc="http://creativecommons.org/ns#">This work is licensed under <a
+        href="http://creativecommons.org/licenses/by-nc-sa/4.0/?ref=chooser-v1" target="_blank"
+        rel="license noopener noreferrer" style="display:inline-block;">CC BY-NC-SA 4.0<img
+          style="height:22px!important;margin-left:3px;vertical-align:text-bottom;"
+          src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img
+          style="height:22px!important;margin-left:3px;vertical-align:text-bottom;"
+          src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"><img
+          style="height:22px!important;margin-left:3px;vertical-align:text-bottom;"
+          src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1"><img
+          style="height:22px!important;margin-left:3px;vertical-align:text-bottom;"
+          src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1"></a></p>
+
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+    crossorigin="anonymous"></script>
+</body>
+
 </html>

@@ -1,453 +1,485 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FiO2 Calculator</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 
-    <script>
-      changeCell = () => {
-        let output = document.getElementById("output").value;
-        switch (output) {
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FiO2 Calculator</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+    integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+  <script>
+    changeCell = () => {
+      let output = document.getElementById("output").value;
+      switch (output) {
         case "fio2":
           return document.getElementById('last-cell').innerHTML = "Oxygen Flow (mL/min or cc/min)";
-          
+
         case "flow":
           return document.getElementById('last-cell').innerHTML = "FiO2 (%)";
-          
+
         default:
           return document.getElementById('last-cell').innerHTML = "Select Option Above"
-        }
-      };
+      }
+    };
 
-      calculateFiner = () => {
-        const weight = Number(document.getElementById('qty_weight').value);
-        const respRate = Number(document.getElementById('qty_respiratory_rate').value);
-        const B = Number(document.getElementById("qty_blender_oxygen").value); //%
+    calculateFiner = () => {
+      const weight = Number(document.getElementById('qty_weight').value);
+      const respRate = Number(document.getElementById('qty_respiratory_rate').value);
+      const B = Number(document.getElementById("qty_blender_oxygen").value); //%
 
-        const Vt = 5.5*weight;
-        const Ve = Vt*respRate;
+      const Vt = 5.5 * weight;
+      const Ve = Vt * respRate;
 
-        let output = document.getElementById("output").value;
-        let result = "Please select your desired output";
-        let finerResult = 0;
-        let finerWarning = "";
-        let finerWarning2 = "";
+      let output = document.getElementById("output").value;
+      let result = "Please select your desired output";
+      let finerResult = 0;
+      let finerWarning = "";
+      let finerWarning2 = "";
 
-        switch (output) {
-          case "fio2":
-            const flow = Number(document.getElementById('last-cell-value').value);
+      switch (output) {
+        case "fio2":
+          const flow = Number(document.getElementById('last-cell-value').value);
 
-            let calculatedFio2 = 0;
+          let calculatedFio2 = 0;
 
-            if (flow > 200) {
-              //alert('Flow rate too high, please use a different calculator.');
-              finerWarning = " Flow rate too high, results may be inaccurate.";
-              //finerResult = "Out of range.";
-            }; 
-            
-            if (flow > Ve) {
-              calculatedFio2 = B;
-              finerResult = Math.round(calculatedFio2);
-            }; 
-            
-            if (flow <= Ve) {
-              calculatedFio2 = (((flow*(B-21)/100)+(0.21*Ve))/Ve)*100;
-              finerResult = Math.round(calculatedFio2);
-            };
-            break;
-          
-          case "flow":
-            const fio2 = Number(document.getElementById('last-cell-value').value);
-            const maxFio2 = B;
+          if (flow > 200) {
+            //alert('Flow rate too high, please use a different calculator.');
+            finerWarning = " Flow rate too high, results may be inaccurate.";
+            //finerResult = "Out of range.";
+          };
 
-            let calculatedFlow = 0;
+          if (flow > Ve) {
+            calculatedFio2 = B;
+            finerResult = Math.round(calculatedFio2);
+          };
 
-            if (fio2 <= maxFio2) {
-              calculatedFlow = (Ve/((B-21)))*((fio2)-21);
-              finerResult = Math.round(calculatedFlow);
-            };
-            
-            if (fio2 > maxFio2) {
-              calculatedFlow = Ve;
-              finerWarning2 = " The FiO2 value you entered cannot be reached with this blender oxygen. The max FiO2 possible is "+Math.round(maxFio2)+"% and the lowest flow rate at which it is reached is shown in the table below.";
-              finerResult = Math.round(calculatedFlow);
-            };
+          if (flow <= Ve) {
+            calculatedFio2 = (((flow * (B - 21) / 100) + (0.21 * Ve)) / Ve) * 100;
+            finerResult = Math.round(calculatedFio2);
+          };
+          break;
 
-            if (calculatedFlow > 200) {
-              //alert('Calculated flow rate too high, please use a different calculator.')
-              finerWarning = " Flow rate too high, results may be inaccurate.";
-              //finerResult = "Out of range.";
-            };
+        case "flow":
+          const fio2 = Number(document.getElementById('last-cell-value').value);
+          const maxFio2 = B;
 
-            break;
-          
-          default:
-            finerResult = "Please select your desired output";
-            break;
-        }
+          let calculatedFlow = 0;
 
-        return [finerResult, finerWarning, finerWarning2]
-      };
+          if (fio2 <= maxFio2) {
+            calculatedFlow = (Ve / ((B - 21))) * ((fio2) - 21);
+            finerResult = Math.round(calculatedFlow);
+          };
 
-      calculateBB = () => {
-        const weight = Number(document.getElementById('qty_weight').value); //kg
-        const fNose = 0.67;
-        const T = 0.3; //s
-        const B = Number(document.getElementById("qty_blender_oxygen").value); //%
+          if (fio2 > maxFio2) {
+            calculatedFlow = Ve;
+            finerWarning2 = " The FiO2 value you entered cannot be reached with this blender oxygen. The max FiO2 possible is " + Math.round(maxFio2) + "% and the lowest flow rate at which it is reached is shown in the table below.";
+            finerResult = Math.round(calculatedFlow);
+          };
 
-        const Vt = 5.0*weight;
-        const VdotNose = fNose*Vt/T; 
+          if (calculatedFlow > 200) {
+            //alert('Calculated flow rate too high, please use a different calculator.')
+            finerWarning = " Calculated flow rate too high, results may be inaccurate.";
+            //finerResult = "Out of range.";
+          };
 
-        let output = document.getElementById("output").value;
-        let result = "Please select your desired output";
-        let bbWarning = "";
-        let bbResult = 0;
+          break;
 
-        const maxFio2 = 21 + fNose * (B - 21);
-
-        switch (output) {
-          case "fio2":
-            const flow = Number(document.getElementById('last-cell-value').value); //mL/min
-            let factor = 0;
-
-            const VdotNc = flow / 60; // mL/s
-
-            if (VdotNose >= VdotNc) {
-              factor = T*VdotNc/Vt;
-            }
-            if (VdotNose < VdotNc) {
-              factor = fNose;
-            }
-            calculatedFio2 = 21 + factor*(B-21);
-
-            bbResult = Math.round(calculatedFio2);
-            break;
-          
-          case "flow":
-            const fio2 = Number(document.getElementById('last-cell-value').value);
-            let calculatedFlow = 0;
-
-            if (fio2 < maxFio2) {
-              calculatedFlow = (Vt*(fio2-21))/(T*(B-21))*60;
-            }
-
-            if (fio2 >= maxFio2) {
-              calculatedFlow = (Vt*(maxFio2-21))/(T*(B-21))*60;
-              bbWarning = " The FiO2 value you entered cannot be reached with this blender oxygen. The max FiO2 possible is "+Math.round(maxFio2)+"% and the lowest flow rate at which it is reached is shown in the table below.";
-            }
-
-            bbResult = Math.round(calculatedFlow);
-
-            break;
-          
-          default:
-            bbResult = "Please select your desired output";
-            break;
-        }
-
-        return [bbResult, bbWarning, maxFio2];
-      };
-
-      NICU = (W, R, F, B) => {
-        let FiO2 = 0;
-
-        const Ve = R * W * 5.5;
-
-        if (F > Ve) {
-          FiO2 = B;
-        } else {
-          FiO2 = ((F * (B - 21) / 100) + (0.21 * R * W * 5.5)) / (R * W * 0.055);
-        };
-        
-        return FiO2
-      };
-
-      BB = (W, F, B) => {
-        let FiO2 = 0;
-
-        let factor = 0;
-        const fNose = 0.67;
-        const T = 0.3; //s
-
-        const Vt = 5.0 * W;
-        const VdotNose = fNose * Vt / T;
-        const VdotNc = F/60;
-
-        if (VdotNose >= VdotNc) {
-          factor = T * VdotNc / Vt;
-        }
-        if (VdotNose < VdotNc) {
-          factor = fNose;
-        }
-        FiO2 = 21 + factor * (B - 21);
-        return FiO2
-      };
-
-      hybrid = (flow) => {
-        const W = Number(document.getElementById('qty_weight').value);
-        const R = Number(document.getElementById('qty_respiratory_rate').value);
-        const B = Number(document.getElementById("qty_blender_oxygen").value);
-
-        const finer = NICU(W, R, flow, B);
-        const bb = BB(W, flow, B);
-
-        if (flow <= 200) {
-          return [flow,(finer + bb) / 2];
-        } else return [flow,bb];
-      };
-
-      makeArray = (steps) => {
-        let arr = [0];
-        for (let i = 0; i <= steps; i++) {
-          arr.push(arr[i] + 1);
-        };
-        return arr;
-      };
-
-      getPolys = () => {
-        //const regression = window.regression;
-        const Fs = makeArray(2000);
-        let hybridValues = [];
-
-        for (i in Fs) {
-          hybridValues.push(hybrid(i));
-        };
-
-        const coefficients = regression('polynomial', hybridValues, 2);
-
-        return coefficients;
+        default:
+          finerResult = "Please select your desired output";
+          break;
       }
 
-      calculate = () => {
-        document.getElementById('loading').innerHTML = "Calculating..";
-        document.getElementById('warnings').innerHTML = "";
+      return [finerResult, finerWarning, finerWarning2]
+    };
 
-        const finer = calculateFiner();
-        const bb = calculateBB();
+    calculateBB = () => {
+      const weight = Number(document.getElementById('qty_weight').value); //kg
+      const fNose = 0.67;
+      const T = 0.3; //s
+      const B = Number(document.getElementById("qty_blender_oxygen").value); //%
 
-        let polys = getPolys().equation;
-        let d2 = polys[2];
-        let d1 = polys[1];
-        let d0 = polys[0];
+      const Vt = 5.0 * weight;
+      const VdotNose = fNose * Vt / T;
 
-        const outputValue = Number(document.getElementById('last-cell-value').value);
+      let output = document.getElementById("output").value;
+      let result = "Please select your desired output";
+      let bbWarning = "";
+      let bbResult = 0;
 
-        let output = document.getElementById("output").value;
-        let tableOutput = "";
-        let hybrid = 0;
-        let hybridWarning = "";
+      const maxFio2 = 21 + fNose * (B - 21);
 
-        let maxFlow = Math.min((-d1 - Math.sqrt(d1 ** 2 - 4 * d2 * (d0 - bb[2]))) / (2 * d2), (-d1 + Math.sqrt(d1 ** 2 - 4 * d2 * (d0 - bb[2]))) / (2 * d2));
+      switch (output) {
+        case "fio2":
+          const flow = Number(document.getElementById('last-cell-value').value); //mL/min
+          let factor = 0;
 
-        switch(output) {
-          case "fio2":
-            if (outputValue < maxFlow) {
-              hybrid = Math.round(d2 * (outputValue ** 2) + d1 * outputValue + d0);
-            } else {
-              hybrid = Math.round(bb[2]);
-            };
-            tableOutput = "FiO2 (%)";
-            break;
-          case "flow":
-            let fio2 = outputValue;
-            tableOutput = "Flow Rate (mL/min)";
-            if (fio2 <= bb[2]) {
-              let smallest = Math.min((-d1 - Math.sqrt(d1 ** 2 - 4 * d2 * (d0 - fio2))) / (2 * d2), (-d1 + Math.sqrt(d1 ** 2 - 4 * d2 * (d0 - fio2))) / (2 * d2));
-              hybrid = Math.round(smallest);
-            } else {
-              hybrid = Math.round(maxFlow);
-              hybridWarning = " The FiO2 value you entered cannot be reached with this blender oxygen. The max FiO2 possible is " + Math.round(bb[2]) + "% and the lowest flow rate at which it is reached is shown in the table below.";
-            }
-            break;
+          const VdotNc = flow / 60; // mL/s
 
-          default:
-            tableOutput = "Output";
-            hybrid ="";
-            break;
-        };
+          if (VdotNose >= VdotNc) {
+            factor = T * VdotNc / Vt;
+          }
+          if (VdotNose < VdotNc) {
+            factor = fNose;
+          }
+          calculatedFio2 = 21 + factor * (B - 21);
 
-        document.getElementById('loading').innerHTML = "<br />";
-        document.getElementById('table-output').innerHTML = tableOutput;
+          bbResult = Math.round(calculatedFio2);
+          break;
 
-        document.getElementById('table-finer').innerHTML = finer[0];
-        document.getElementById('table-bb').innerHTML = bb[0];
-        document.getElementById('table-hybrid').innerHTML = hybrid;
+        case "flow":
+          const fio2 = Number(document.getElementById('last-cell-value').value);
+          let calculatedFlow = 0;
 
-        const warnings = document.getElementById('warnings');
-        const ul = document.createElement('ul');
-        const liFiner1 = document.createElement('li');
-        const liFiner2 = document.createElement('li');
-        const liBB = document.createElement('li');
-        const liHybrid = document.createElement('li');
+          if (fio2 < maxFio2) {
+            calculatedFlow = (Vt * (fio2 - 21)) / (T * (B - 21)) * 60;
+          }
 
-        if (finer[1] != "") {
-          liFiner1.innerHTML = ("<b>Finer:</b>"+finer[1]);
-          ul.appendChild(liFiner1);
-        } if (finer[2] != "") {
-          liFiner2.innerHTML = ("<b>Finer:</b>"+finer[2]);
-          ul.appendChild(liFiner2);
-        } if (bb[1] != "") {
-          liBB.innerHTML = ("<b>Benaron-Benitz:</b>"+bb[1]);
-          ul.appendChild(liBB);
-        } if (hybridWarning != "") {
-          liHybrid.innerHTML = ("<b>Hybrid:</b>" + hybridWarning);
-          ul.appendChild(liHybrid);
-        };
+          if (fio2 >= maxFio2) {
+            calculatedFlow = (Vt * (maxFio2 - 21)) / (T * (B - 21)) * 60;
+            bbWarning = " The FiO2 value you entered cannot be reached with this blender oxygen. The max FiO2 possible is " + Math.round(maxFio2) + "% and the lowest flow rate at which it is reached is shown in the table below.";
+          }
 
-        warnings.appendChild(ul);
-        return
+          bbResult = Math.round(calculatedFlow);
+
+          break;
+
+        default:
+          bbResult = "Please select your desired output";
+          break;
+      }
+
+      return [bbResult, bbWarning, maxFio2];
+    };
+
+    NICU = (W, R, F, B) => {
+      let FiO2 = 0;
+
+      const Ve = R * W * 5.5;
+
+      if (F > Ve) {
+        FiO2 = B;
+      } else {
+        FiO2 = ((F * (B - 21) / 100) + (0.21 * R * W * 5.5)) / (R * W * 0.055);
       };
-    </script>
 
-  </head>
+      return FiO2
+    };
 
-  <body>
-    <header>
-      <h4>FiO2 Calculator</h4>
-      <div class="nav">
-        <ul>
-          <li>
-            <a href="aboutUs.html" class="btn btn-secondary" role="button" aria-pressed="true">
-              About Us
+    BB = (W, F, B) => {
+      let FiO2 = 0;
+
+      let factor = 0;
+      const fNose = 0.67;
+      const T = 0.3; //s
+
+      const Vt = 5.0 * W;
+      const VdotNose = fNose * Vt / T;
+      const VdotNc = F / 60;
+
+      if (VdotNose >= VdotNc) {
+        factor = T * VdotNc / Vt;
+      }
+      if (VdotNose < VdotNc) {
+        factor = fNose;
+      }
+      FiO2 = 21 + factor * (B - 21);
+      return FiO2
+    };
+
+    hybrid = (flow) => {
+      const W = Number(document.getElementById('qty_weight').value);
+      const R = Number(document.getElementById('qty_respiratory_rate').value);
+      const B = Number(document.getElementById("qty_blender_oxygen").value);
+
+      const finer = NICU(W, R, flow, B);
+      const bb = BB(W, flow, B);
+
+      if (flow <= 200) {
+        return [flow, (finer + bb) / 2];
+      } else return [flow, bb];
+    };
+
+    makeArray = (steps) => {
+      let arr = [0];
+      for (let i = 0; i <= steps; i++) {
+        arr.push(arr[i] + 1);
+      };
+      return arr;
+    };
+
+    getPolys = () => {
+      //const regression = window.regression;
+      const Fs = makeArray(2000);
+      let hybridValues = [];
+
+      for (i in Fs) {
+        hybridValues.push(hybrid(i));
+      };
+
+      const coefficients = regression('polynomial', hybridValues, 2);
+
+      return coefficients;
+    }
+
+    calculate = () => {
+      document.getElementById('loading').innerHTML = "Calculating..";
+      document.getElementById('warnings').innerHTML = "";
+
+      const finer = calculateFiner();
+      const bb = calculateBB();
+
+      let polys = getPolys().equation;
+      let d2 = polys[2];
+      let d1 = polys[1];
+      let d0 = polys[0];
+
+      const outputValue = Number(document.getElementById('last-cell-value').value);
+
+      let output = document.getElementById("output").value;
+      let tableOutput = "";
+      let hybrid = 0;
+      let hybridWarning = "";
+
+      let maxFlow = 0;
+
+      if (d2 < 0) {
+        maxFlow = Math.min((-d1 - Math.sqrt(d1 ** 2 - 4 * d2 * (d0 - bb[2]))) / (2 * d2), (-d1 + Math.sqrt(d1 ** 2 - 4 * d2 * (d0 - bb[2]))) / (2 * d2));
+      } else {
+        maxFlow = Math.max((-d1 - Math.sqrt(d1 ** 2 - 4 * d2 * (d0 - bb[2]))) / (2 * d2), (-d1 + Math.sqrt(d1 ** 2 - 4 * d2 * (d0 - bb[2]))) / (2 * d2));
+      };
+
+      switch (output) {
+        case "fio2":
+          if (outputValue < maxFlow) {
+            hybrid = Math.round(d2 * (outputValue ** 2) + d1 * outputValue + d0);
+          } else {
+            hybrid = Math.round(bb[2]);
+          };
+          tableOutput = "FiO2 (%)";
+          break;
+        case "flow":
+          let fio2 = outputValue;
+          tableOutput = "Flow Rate (mL/min)";
+          if (fio2 <= bb[2]) {
+            let intercept = 0;
+            if (d2 < 0) {
+              intercept = Math.min((-d1 - Math.sqrt(d1 ** 2 - 4 * d2 * (d0 - fio2))) / (2 * d2), (-d1 + Math.sqrt(d1 ** 2 - 4 * d2 * (d0 - fio2))) / (2 * d2));
+            } else {
+              intercept = Math.max((-d1 - Math.sqrt(d1 ** 2 - 4 * d2 * (d0 - fio2))) / (2 * d2), (-d1 + Math.sqrt(d1 ** 2 - 4 * d2 * (d0 - fio2))) / (2 * d2));
+            };
+            hybrid = Math.round(intercept);
+          } else {
+            hybrid = Math.round(maxFlow);
+            hybridWarning = " The FiO2 value you entered cannot be reached with this blender oxygen. The max FiO2 possible is " + Math.round(bb[2]) + "% and the lowest flow rate at which it is reached is shown in the table below.";
+          }
+          break;
+
+        default:
+          tableOutput = "Output";
+          hybrid = "";
+          break;
+      };
+
+      document.getElementById('loading').innerHTML = "<br />";
+      document.getElementById('table-output').innerHTML = tableOutput;
+
+      document.getElementById('table-finer').innerHTML = finer[0];
+      document.getElementById('table-bb').innerHTML = bb[0];
+      document.getElementById('table-hybrid').innerHTML = hybrid;
+
+      const warnings = document.getElementById('warnings');
+      const ul = document.createElement('ul');
+      const liFiner1 = document.createElement('li');
+      const liFiner2 = document.createElement('li');
+      const liBB = document.createElement('li');
+      const liHybrid = document.createElement('li');
+
+      if (finer[1] != "") {
+        liFiner1.innerHTML = ("<b>Finer:</b>" + finer[1]);
+        ul.appendChild(liFiner1);
+      } if (finer[2] != "") {
+        liFiner2.innerHTML = ("<b>Finer:</b>" + finer[2]);
+        ul.appendChild(liFiner2);
+      } if (bb[1] != "") {
+        liBB.innerHTML = ("<b>Benaron-Benitz:</b>" + bb[1]);
+        ul.appendChild(liBB);
+      } if (hybridWarning != "") {
+        liHybrid.innerHTML = ("<b>Hybrid:</b>" + hybridWarning);
+        ul.appendChild(liHybrid);
+      };
+
+      warnings.appendChild(ul);
+      return
+    };
+  </script>
+
+</head>
+
+<body>
+  <header>
+    <h4>FiO2 Calculator</h4>
+    <div class="nav">
+      <ul>
+        <li>
+          <a href="aboutUs.html" class="btn btn-secondary" role="button" aria-pressed="true">
+            About Us
+          </a>
+        </li>
+      </ul>
+    </div>
+  </header>
+  <nav class="navbar navbar-expand navbar-light bg-light">
+
+    <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="index.html">Home</a>
+        </li>
+        <li class="nav-item active">
+          <div class="dropdown">
+            <a class="nav-link active dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              Calculators
             </a>
-          </li>
-        </ul>
-      </div>
-    </header>
-    <nav class="navbar navbar-expand navbar-light bg-light">
-    
-      <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item active">
-            <a class="nav-link" href="index.html">Home</a>
-          </li>
-          <li class="nav-item active">
-            <div class="dropdown">
-              <a class="nav-link active dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Calculators
-              </a>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="finer.html">Finer</a>
-                <a class="dropdown-item" href="bb.html">Benaron-Benitz</a>
-                <a class="dropdown-item" href="hybrid.html">Hybrid</a>
-              </div>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="finer.html">Finer</a>
+              <a class="dropdown-item" href="bb.html">Benaron-Benitz</a>
+              <a class="dropdown-item" href="hybrid.html">Hybrid</a>
             </div>
-          </li>
-          <li class="nav-item active">
-            <div class="dropdown">
-              <a class="nav-link active dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                How it Works
-              </a>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="finerHIW.html">Finer</a>
-                <a class="dropdown-item" href="bbHIW.html">Benaron-Benitz</a>
-                <a class="dropdown-item" href="hybridHIW.html">Hybrid</a>
-              </div>
+          </div>
+        </li>
+        <li class="nav-item active">
+          <div class="dropdown">
+            <a class="nav-link active dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              How it Works
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="finerHIW.html">Finer</a>
+              <a class="dropdown-item" href="bbHIW.html">Benaron-Benitz</a>
+              <a class="dropdown-item" href="hybridHIW.html">Hybrid</a>
             </div>
-          </li>
-        </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="page-content">
+    <h5>Hybrid Calculator:</h5>
+    <p>
+      <b>Disclaimer:</b> This model has not been validated against real data (click <a href="hybridHIW.html">here</a>
+      for more info).
+    </p>
+    <p> Recommended conditions for use:
+    <ul>
+      <li>If known, a flow rate below 2000 ml/min</li>
+      <li>A measured respiratory rate</li>
+    </ul>
+    </p>
+
+    <div class="container mt-4">
+      <div class="row my-3">
+        <div class="col-6">
+          Weight (Kg)
+        </div>
+        <div class="col-3">
+          <input type="number" value="1.5" class="qty" id="qty_weight" />
+        </div>
       </div>
-    </nav>
 
-    <div class="page-content">
-      <h5>Hybrid Calculator:</h5>
-      <p>
-        <b>Disclaimer:</b> This model has not been validated against real data (click <a href="hybridHIW.html">here</a> for more info).
-      </p>
-      <p> Recommended conditions for use:
-        <ul>
-          <li>If known, a flow rate below 2000 ml/min</li>
-          <li>A measured respiratory rate</li>
-        </ul>
-      </p>
-  
-      <div class="container mt-4">
-        <div class="row my-3">
-          <div class="col-6">
-            Weight (Kg)
-          </div>
-          <div class="col-3">
-            <input type="number" value="1.5" class="qty" id="qty_weight"/>
-          </div>
+      <div class="row my-3">
+        <div class="col-6">
+          Blender Oxygen (%)
         </div>
-
-        <div class="row my-3">
-          <div class="col-6">
-            Blender Oxygen (%)
-          </div>
-          <div class="col-3">
-            <input type="number" value="100" class="qty" id="qty_blender_oxygen"/>
-          </div>
+        <div class="col-3">
+          <input type="number" value="100" class="qty" id="qty_blender_oxygen" />
         </div>
-        
-         <div class="row my-3">
-          <div class="col-6">
-            Respiratory rate (Breaths/Min)
-          </div>
-          <div class="col-3">
-            <input type="number" value="65" class="qty" id="qty_respiratory_rate"/>
-          </div>
-        </div>
-
-        <div class="row my-3">
-          <div class="col-6">
-            Preferred output:
-          </div>
-          <div class="col-3" onload="changeCell()">
-            <select id="output" onchange="changeCell()">
-                <option value="none">Select Option</option>
-                <option value="fio2">FiO2</option>
-                <option value="flow">Flow Rate</option>
-            </select>
-          </div>
-        </div>
-        
-        <div class="row my-3">
-          <div class="col-6" id=last-cell>Select Option Above</div>
-          <div class="col-3">
-            <input type="number" class="qty" value="0" id="last-cell-value"/>
-          </div>
-        </div>
-      
       </div>
-  
-      <p class="result-div"> 
-        <div class="center" onload="calculate()">
-          <button class="btn btn-success" type="button" onclick="calculate()">Calculate Results</button>
+
+      <div class="row my-3">
+        <div class="col-6">
+          Respiratory rate (Breaths/Min)
         </div>
-        <div class="loading" id="loading"><br /></div>
+        <div class="col-3">
+          <input type="number" value="65" class="qty" id="qty_respiratory_rate" />
+        </div>
+      </div>
 
-        <p class="warnings">Warnings:
-          <ul id="warnings">(If a warning comes up it will appear here)</ul>
-        </p>
+      <div class="row my-3">
+        <div class="col-6">
+          Preferred output:
+        </div>
+        <div class="col-3" onload="changeCell()">
+          <select id="output" onchange="changeCell()">
+            <option value="none">Select Option</option>
+            <option value="fio2">FiO2</option>
+            <option value="flow">Flow Rate</option>
+          </select>
+        </div>
+      </div>
 
-        <table class="table">
-          <tr>
-            <th>Model</th>
-            <th id="table-output">Output</th> 
-          </tr>
-          <tr>
-            <td>Finer (NICU)</td>
-            <td id="table-finer"></td>
-          </tr>
-          <tr>
-            <td>Benaron-Benitz</td>
-            <td id="table-bb"></td>
-          </tr>
-          <tr style="outline: 1px solid black;">
-            <td>Hybrid</td>
-            <td id="table-hybrid"></td>
-          </tr>
-        </table>
-      </p>
+      <div class="row my-3">
+        <div class="col-6" id=last-cell>Select Option Above</div>
+        <div class="col-3">
+          <input type="number" class="qty" value="0" id="last-cell-value" />
+        </div>
+      </div>
 
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/regression/1.4.0/regression.min.js"></script>
-  </body>
+    <p class="result-div">
+    <div class="center" onload="calculate()">
+      <button class="btn btn-success" type="button" onclick="calculate()">Calculate Results</button>
+    </div>
+    <div class="loading" id="loading"><br /></div>
+
+    <p class="warnings">Warnings:
+    <ul id="warnings">(If a warning comes up it will appear here)</ul>
+    </p>
+
+    <table class="table">
+      <tr>
+        <th>Model</th>
+        <th id="table-output">Output</th>
+      </tr>
+      <tr>
+        <td>Finer (NICU)</td>
+        <td id="table-finer"></td>
+      </tr>
+      <tr>
+        <td>Benaron-Benitz</td>
+        <td id="table-bb"></td>
+      </tr>
+      <tr style="outline: 1px solid black;">
+        <td>Hybrid</td>
+        <td id="table-hybrid"></td>
+      </tr>
+    </table>
+    </p>
+    <p xmlns:cc="http://creativecommons.org/ns#">This work is licensed under <a
+        href="http://creativecommons.org/licenses/by-nc-sa/4.0/?ref=chooser-v1" target="_blank"
+        rel="license noopener noreferrer" style="display:inline-block;">CC BY-NC-SA 4.0<img
+          style="height:22px!important;margin-left:3px;vertical-align:text-bottom;"
+          src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img
+          style="height:22px!important;margin-left:3px;vertical-align:text-bottom;"
+          src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"><img
+          style="height:22px!important;margin-left:3px;vertical-align:text-bottom;"
+          src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1"><img
+          style="height:22px!important;margin-left:3px;vertical-align:text-bottom;"
+          src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1"></a></p>
+
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/regression/1.4.0/regression.min.js"></script>
+</body>
+
 </html>

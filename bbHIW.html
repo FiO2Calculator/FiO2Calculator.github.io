@@ -1,97 +1,131 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FiO2 Calculator</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
-  </head>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FiO2 Calculator</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+    integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 
-  <body>
-    <header>
-      <h4>FiO2 Calculator</h4>
-      <div class="nav">
-        <ul>
-          <li>
-            <a href="aboutUs.html" class="btn btn-secondary" role="button" aria-pressed="true">
-              About Us
-            </a>
-          </li>
-        </ul>
-      </div>
-    </header>
-    <nav class="navbar navbar-expand navbar-light bg-light">
-    
-      <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item active">
-            <a class="nav-link" href="index.html">Home</a>
-          </li>
-          <li class="nav-item active">
-            <div class="dropdown">
-              <a class="nav-link active dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Calculators
-              </a>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="finer.html">Finer</a>
-                <a class="dropdown-item" href="bb.html">Benaron-Benitz</a>
-                <a class="dropdown-item" href="hybrid.html">Hybrid</a>
-              </div>
-            </div>
-          </li>
-          <li class="nav-item active">
-            <div class="dropdown">
-              <a class="nav-link active dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                How it Works
-              </a>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="finerHIW.html">Finer</a>
-                <a class="dropdown-item" href="bbHIW.html">Benaron-Benitz</a>
-                <a class="dropdown-item" href="hybridHIW.html">Hybrid</a>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </nav>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
-    <div class="page-content">
-      <h5>More details on Benaron-Benitz:</h5> 
-      <p>
-        The Benaron-Benitz model implements the formula derived by Benaron DA & Benitz WE, <a href="https://pubmed.ncbi.nlm.nih.gov/8130865/">Arch Pediatr Adolesc Med., Mar.
-        1994;148(3):294-300</a> :
-      </p>
-      <img class="eq-img" src="bb.png" />
-      <br />
-      <p style="line-height: 1.5;">
-        Here the tidal volume \(V_T = 5.0\times W\) (ml), with weight \(W\) (kg), and the inspiratory rate through the nose \(\dot V_{nose}=\frac{f_{nose}\times V_T}{T_I}\) (ml/s) with \(f_{nose}\) the fraction of inspiratory
-        flow which is inspired through the nose and \(T_I\) (s) the inspiratory time.
-        The atmospheric oxygen concentration (\(F_{atm,O_2}\)) and the nasal cannula concentration (\(F_{nc,O_2}\)) are both
-        measured as a percentage of oxygen.
-      </p>
-      <p>
-        This formula is proportional to cannula flow rate and blender percentage (\(B\)), and inversely proportional to weight through
-        tidal volume. 
-      </p>
-      <p>
-        In the construction of this model, Benaron and Benitz assume a respiratory rate of 65 breaths/min, constant nasal flow
-        over the inspiratory cycle and that the upper airway does not act as a reservoir. For their model to be most accurate to
-        their empirical measurements, it is recommended to use \(V_T\) = 5.0 ml/kg, \(T_I\) = 0.3 s and \(f_{nose}\) = 0.67, which are the
-        values used in this implementation.
-      </p>
-      <p>
-        This model is recommended for use for flow rates up to 2000 ml/min as that is the maximum value considered to be low-flow. It should be noted that respiratory rate is assumed
-        for all patients so it may be a source of inaccuracy for patients with a respiratory rate much lower (or higher) than 65 breaths/min.
-      </p>
-      <p>If selecting flow rate for the preferred output, the formula above is inverted to solve for \(F\).</p>
+</head>
 
+<body>
+  <header>
+    <h4>FiO2 Calculator</h4>
+    <div class="nav">
+      <ul>
+        <li>
+          <a href="aboutUs.html" class="btn btn-secondary" role="button" aria-pressed="true">
+            About Us
+          </a>
+        </li>
+      </ul>
     </div>
+  </header>
+  <nav class="navbar navbar-expand navbar-light bg-light">
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-  </body>
+    <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="index.html">Home</a>
+        </li>
+        <li class="nav-item active">
+          <div class="dropdown">
+            <a class="nav-link active dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              Calculators
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="finer.html">Finer</a>
+              <a class="dropdown-item" href="bb.html">Benaron-Benitz</a>
+              <a class="dropdown-item" href="hybrid.html">Hybrid</a>
+            </div>
+          </div>
+        </li>
+        <li class="nav-item active">
+          <div class="dropdown">
+            <a class="nav-link active dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              How it Works
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="finerHIW.html">Finer</a>
+              <a class="dropdown-item" href="bbHIW.html">Benaron-Benitz</a>
+              <a class="dropdown-item" href="hybridHIW.html">Hybrid</a>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="page-content">
+    <h5>More details on Benaron-Benitz:</h5>
+    <p>
+      The Benaron-Benitz model implements the formula derived by Benaron DA & Benitz WE, <a
+        href="https://pubmed.ncbi.nlm.nih.gov/8130865/">Arch Pediatr Adolesc Med., Mar.
+        1994;148(3):294-300</a> :
+    </p>
+    <img class="eq-img" src="bb.png" />
+    <br />
+    <p style="line-height: 1.5;">
+      Here the tidal volume \(V_T = 5.0\times W\) (ml), with weight \(W\) (kg), and the inspiratory rate through the
+      nose \(\dot V_{nose}=\frac{f_{nose}\times V_T}{T_I}\) (ml/s) with \(f_{nose}\) the fraction of inspiratory
+      flow which is inspired through the nose and \(T_I\) (s) the inspiratory time.
+      The atmospheric oxygen concentration (\(F_{atm,O_2}\)) and the nasal cannula concentration (\(F_{nc,O_2}\)) are
+      both
+      measured as a percentage of oxygen.
+    </p>
+    <p>
+      This formula is proportional to cannula flow rate and blender percentage (\(B\)), and inversely proportional to
+      weight through
+      tidal volume.
+    </p>
+    <p>
+      In the construction of this model, Benaron and Benitz assume a respiratory rate of 65 breaths/min, constant nasal
+      flow
+      over the inspiratory cycle and that the upper airway does not act as a reservoir. For their model to be most
+      accurate to
+      their empirical measurements, it is recommended to use \(V_T\) = 5.0 ml/kg, \(T_I\) = 0.3 s and \(f_{nose}\) =
+      0.67, which are the
+      values used in this implementation.
+    </p>
+    <p>
+      This model is recommended for use for flow rates up to 2000 ml/min as that is the maximum value considered to be
+      low-flow. It should be noted that respiratory rate is assumed
+      for all patients so it may be a source of inaccuracy for patients with a respiratory rate much lower (or higher)
+      than 65 breaths/min.
+    </p>
+    <p>If selecting flow rate for the preferred output, the formula above is inverted to solve for \(F\).</p>
+    </br>
+    <p>
+      <b>Note:</b> This Page uses MathJax to display equations under the <a
+        href="https://github.com/mathjax/MathJax/blob/master/LICENSE">Apache License, Version 2.0</a>.
+    </p>
+    <p xmlns:cc="http://creativecommons.org/ns#">This work is licensed under <a
+        href="http://creativecommons.org/licenses/by-nc-sa/4.0/?ref=chooser-v1" target="_blank"
+        rel="license noopener noreferrer" style="display:inline-block;">CC BY-NC-SA 4.0<img
+          style="height:22px!important;margin-left:3px;vertical-align:text-bottom;"
+          src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img
+          style="height:22px!important;margin-left:3px;vertical-align:text-bottom;"
+          src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"><img
+          style="height:22px!important;margin-left:3px;vertical-align:text-bottom;"
+          src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1"><img
+          style="height:22px!important;margin-left:3px;vertical-align:text-bottom;"
+          src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1"></a></p>
+
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+    crossorigin="anonymous"></script>
+</body>
+
 </html>
